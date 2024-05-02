@@ -5,8 +5,9 @@ import com.hoc081098.kmpapp.data.KtorMuseumApi
 import com.hoc081098.kmpapp.data.MuseumApi
 import com.hoc081098.kmpapp.data.MuseumRepository
 import com.hoc081098.kmpapp.data.MuseumStorage
-import com.hoc081098.kmpapp.screens.detail.DetailScreenModel
-import com.hoc081098.kmpapp.screens.list.ListScreenModel
+import com.hoc081098.kmpapp.screens.detail.DetailScreenViewModel
+import com.hoc081098.kmpapp.screens.list.ListScreenViewModel
+import com.hoc081098.solivagant.navigation.NavEventNavigator
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.http.ContentType
@@ -14,6 +15,7 @@ import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import org.koin.core.context.startKoin
 import org.koin.core.module.dsl.factoryOf
+import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 val dataModule = module {
@@ -36,16 +38,21 @@ val dataModule = module {
     }
 }
 
-val screenModelsModule = module {
-    factoryOf(::ListScreenModel)
-    factoryOf(::DetailScreenModel)
+val viewModelsModule = module {
+    factoryOf(::ListScreenViewModel)
+    factoryOf(::DetailScreenViewModel)
+}
+
+val navigationModule = module {
+    singleOf(::NavEventNavigator)
 }
 
 fun initKoin() {
     startKoin {
         modules(
             dataModule,
-            screenModelsModule,
+            viewModelsModule,
+            navigationModule,
         )
     }
 }

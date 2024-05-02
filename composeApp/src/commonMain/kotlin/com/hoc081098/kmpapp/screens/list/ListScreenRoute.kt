@@ -18,38 +18,36 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.koin.getScreenModel
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
+import com.hoc081098.kmp.viewmodel.koin.compose.koinKmpViewModel
+import com.hoc081098.kmp.viewmodel.parcelable.Parcelize
 import com.hoc081098.kmpapp.data.MuseumObject
 import com.hoc081098.kmpapp.screens.EmptyScreenContent
-import com.hoc081098.kmpapp.screens.detail.DetailScreen
+import com.hoc081098.solivagant.lifecycle.compose.collectAsStateWithLifecycle
+import com.hoc081098.solivagant.navigation.NavRoot
+import com.hoc081098.solivagant.navigation.ScreenDestination
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
 
-data object ListScreen : Screen {
-    @Composable
-    override fun Content() {
-        val navigator = LocalNavigator.currentOrThrow
-        val screenModel: ListScreenModel = getScreenModel()
+@Parcelize
+@Immutable
+data object ListScreenRoute : NavRoot {
+    val Destination = ScreenDestination<ListScreenRoute> { _, modifier ->
+        val viewModel = koinKmpViewModel<ListScreenViewModel>()
+        val objects by viewModel.objectsStateFlow.collectAsStateWithLifecycle()
 
-        val objects by screenModel.objects.collectAsState()
-
-        AnimatedContent(objects.isNotEmpty()) { objectsAvailable ->
+        AnimatedContent(modifier = modifier, targetState = objects.isNotEmpty()) { objectsAvailable ->
             if (objectsAvailable) {
                 ObjectGrid(
                     objects = objects,
-                    onObjectClick = { objectId ->
-                        navigator.push(DetailScreen(objectId))
-                    }
+                    onObjectClick = remember(viewModel) { viewModel::navigateToDetailScreen },
                 )
             } else {
                 EmptyScreenContent(Modifier.fillMaxSize())
@@ -64,7 +62,7 @@ private fun ObjectGrid(
     onObjectClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    LazyRow() {  }
+    LazyRow() { }
     LazyVerticalGrid(
         columns = GridCells.Adaptive(180.dp),
         modifier = modifier.fillMaxSize(),

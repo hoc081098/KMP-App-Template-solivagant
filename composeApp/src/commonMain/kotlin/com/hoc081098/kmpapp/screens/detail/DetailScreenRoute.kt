@@ -20,8 +20,9 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -30,12 +31,13 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.koin.getScreenModel
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
+import com.hoc081098.kmp.viewmodel.koin.compose.koinKmpViewModel
+import com.hoc081098.kmp.viewmodel.parcelable.Parcelize
 import com.hoc081098.kmpapp.data.MuseumObject
 import com.hoc081098.kmpapp.screens.EmptyScreenContent
+import com.hoc081098.solivagant.lifecycle.compose.collectAsStateWithLifecycle
+import com.hoc081098.solivagant.navigation.NavRoute
+import com.hoc081098.solivagant.navigation.ScreenDestination
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
 import kmp_app_template.composeapp.generated.resources.Res
@@ -48,27 +50,30 @@ import kmp_app_template.composeapp.generated.resources.label_dimensions
 import kmp_app_template.composeapp.generated.resources.label_medium
 import kmp_app_template.composeapp.generated.resources.label_repository
 import kmp_app_template.composeapp.generated.resources.label_title
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 
-data class DetailScreen(val objectId: Int) : Screen {
-    @Composable
-    override fun Content() {
-        val navigator = LocalNavigator.currentOrThrow
-        val screenModel: DetailScreenModel = getScreenModel()
+@Parcelize
+@Immutable
+data class DetailScreenRoute(val objectId: Int) : NavRoute {
+    companion object {
+        val Destination = ScreenDestination<DetailScreenRoute> { route, modifier ->
+            val viewModel: DetailScreenViewModel = koinKmpViewModel()
 
-        val obj by screenModel.getObject(objectId).collectAsState(initial = null)
-        AnimatedContent(obj != null) { objectAvailable ->
-            if (objectAvailable) {
-                ObjectDetails(obj!!, onBackClick = { navigator.pop() })
-            } else {
-                EmptyScreenContent(Modifier.fillMaxSize())
+            val obj by viewModel.objectStateFlow.collectAsStateWithLifecycle()
+            AnimatedContent(modifier = modifier, targetState = obj) { museumObject ->
+                if (museumObject != null) {
+                    ObjectDetails(
+                        obj = museumObject,
+                        onBackClick = remember(viewModel) { viewModel::navigateBack },
+                    )
+                } else {
+                    EmptyScreenContent(Modifier.fillMaxSize())
+                }
             }
         }
     }
 }
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun ObjectDetails(
     obj: MuseumObject,

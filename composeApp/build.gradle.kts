@@ -1,8 +1,11 @@
+import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.kotlinxSerialization)
+    alias(libs.plugins.kotlinParcelize)
 }
 
 kotlin {
@@ -25,6 +28,8 @@ kotlin {
         }
     }
 
+    jvm("desktop")
+
     sourceSets {
         androidMain {
             dependencies {
@@ -32,6 +37,8 @@ kotlin {
                 implementation(libs.compose.ui.tooling.preview)
                 implementation(libs.androidx.activity.compose)
                 implementation(libs.ktor.client.okhttp)
+
+                implementation(libs.kotlinx.coroutines.android)
             }
         }
         iosMain.dependencies {
@@ -49,8 +56,25 @@ kotlin {
 
             implementation(libs.kamel)
             implementation(libs.koin.core)
-            implementation(libs.voyager.navigator)
-            implementation(libs.voyager.koin)
+
+            implementation(libs.flow.ext)
+            implementation(libs.kotlinx.coroutines.core)
+            implementation(libs.kotlinx.collections.immutable)
+
+            // KMP View Model & Solivagant navigation
+            implementation(libs.kmp.viewmodel)
+            implementation(libs.kmp.viewmodel.savedstate)
+            implementation(libs.kmp.viewmodel.compose)
+            implementation(libs.kmp.viewmodel.koin.compose)
+            implementation(libs.solivagant.navigation)
+        }
+
+        val desktopMain by getting
+        desktopMain.dependencies {
+            implementation(compose.desktop.currentOs)
+
+            // Coroutines
+            implementation(libs.kotlinx.coroutines.swing)
         }
     }
 }
@@ -86,5 +110,17 @@ android {
     }
     dependencies {
         debugImplementation(libs.compose.ui.tooling)
+    }
+}
+
+compose.desktop {
+    application {
+        mainClass = "MainKt"
+
+        nativeDistributions {
+            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
+            packageName = "com.hoc081098"
+            packageVersion = "1.0.0"
+        }
     }
 }
