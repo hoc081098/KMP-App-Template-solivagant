@@ -18,4 +18,4 @@ The app uses the following multiplatform dependencies in its implementation:
 - [kotlinx.serialization](https://github.com/Kotlin/kotlinx.serialization) for JSON handling
 - [Kamel](https://github.com/Kamel-Media/Kamel) for image loading
 - [Koin](https://github.com/InsertKoinIO/koin) for dependency injection
-- [Solivagant](https://github.com/adrielcafe/voyager) for type-safe navigation, ViewModel, SavedStateHandle, Lifecycle, Multi-Backstacks, Transitions, Back-press handling.
+- [Solivagant](https://github.com/hoc081098/solivagant) for type-safe navigation, ViewModel, SavedStateHandle, Lifecycle, Multi-Backstacks, Transitions, Back-press handling.
