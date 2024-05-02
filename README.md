@@ -1,6 +1,7 @@
 # Kotlin Compose Multiplatform app template
 
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Build Android and Desktop CI](https://github.com/hoc081098/KMP-Compose-App-Template-solivagant/actions/workflows/gradle.yml/badge.svg)](https://github.com/hoc081098/KMP-Compose-App-Template-solivagant/actions/workflows/gradle.yml)
 
 This is a basic Kotlin Compose Multiplatform app template for Android, iOS, and Desktop.
 It includes shared business logic and data handling, and a shared UI implementation using Compose Multiplatform.
