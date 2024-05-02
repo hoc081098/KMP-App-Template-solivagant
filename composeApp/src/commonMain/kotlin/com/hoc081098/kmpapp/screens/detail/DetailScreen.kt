@@ -1,4 +1,4 @@
-package com.jetbrains.kmpapp.screens.detail
+package com.hoc081098.kmpapp.screens.detail
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.background
@@ -34,8 +34,8 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import com.jetbrains.kmpapp.data.MuseumObject
-import com.jetbrains.kmpapp.screens.EmptyScreenContent
+import com.hoc081098.kmpapp.data.MuseumObject
+import com.hoc081098.kmpapp.screens.EmptyScreenContent
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
 import kmp_app_template.composeapp.generated.resources.Res

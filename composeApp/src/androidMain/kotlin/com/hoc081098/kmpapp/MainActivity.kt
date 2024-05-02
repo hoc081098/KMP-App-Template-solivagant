@@ -1,4 +1,4 @@
-package com.jetbrains.kmpapp
+package com.hoc081098.kmpapp
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

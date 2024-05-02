@@ -1,8 +1,8 @@
-package com.jetbrains.kmpapp.screens.detail
+package com.hoc081098.kmpapp.screens.detail
 
 import cafe.adriel.voyager.core.model.ScreenModel
-import com.jetbrains.kmpapp.data.MuseumObject
-import com.jetbrains.kmpapp.data.MuseumRepository
+import com.hoc081098.kmpapp.data.MuseumObject
+import com.hoc081098.kmpapp.data.MuseumRepository
 import kotlinx.coroutines.flow.Flow
 
 class DetailScreenModel(private val museumRepository: MuseumRepository) : ScreenModel {

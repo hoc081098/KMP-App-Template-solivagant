@@ -1,9 +1,9 @@
-package com.jetbrains.kmpapp.screens.list
+package com.hoc081098.kmpapp.screens.list
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
-import com.jetbrains.kmpapp.data.MuseumObject
-import com.jetbrains.kmpapp.data.MuseumRepository
+import com.hoc081098.kmpapp.data.MuseumObject
+import com.hoc081098.kmpapp.data.MuseumRepository
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
