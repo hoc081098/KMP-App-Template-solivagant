@@ -9,9 +9,13 @@ It includes shared business logic and data handling, and a shared UI implementat
 
 ![Screenshots of the app](images/screenshots.png)
 
+<p align="center">
+
 <img src="images/desktop_01.png" height="480" />
 
 <img src="images/desktop_02.png" height="480" />
+  
+</p>
 
 ### Technologies
 
