@@ -7,7 +7,7 @@ androidx-activityCompose = "1.9.3"
 jetpack-compose-bom = "2024.11.00"
 compose-plugin = "1.7.1"
 koin = "4.0.0"
-kotlin = "1.9.24"
+kotlin = "1.9.25"
 ktor = "2.3.13"
 kamel = "0.9.5"
 
